@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.Scanner;
 
 public class BankManagingSys{
@@ -22,9 +21,7 @@ public class BankManagingSys{
         final String EXIT = "Exit";
 
         String screen = DASHBOARD;
-        int[] accountId = new int[0];
-        double[] accountBalance = new double[0];
-        String[] accountName = new String[0];
+        String[][] accountDetails = new String[0][];
 
         do {
             final String APP_TITLE = String.format("%s%s%s",
@@ -65,8 +62,8 @@ public class BankManagingSys{
                     double deposit;
                     boolean valid;
 
-                    Random iRandom = new Random();
-                    id = iRandom.nextInt(99999);
+                    
+                    id = accountDetails.length + 1;
                     System.out.printf("ID: SDB-%05d\n",id);
 
                     
@@ -118,23 +115,18 @@ public class BankManagingSys{
 
                     } while (!valid);
 
-                    int[] newAccoutIds = new int[accountId.length + 1];
-                    String[] newAccountNames = new String[accountName.length + 1];
-                    double[] newAccountBalance = new double[accountBalance.length+1];
+                
+                    String[][] newAccountDetails = new String[accountDetails.length+1][3];
 
-                    for (int i = 0; i < accountId.length; i++) {
-                        newAccountBalance[i] = accountBalance[i];
-                        newAccountNames[i] = accountName[i];
-                        newAccoutIds[i] = accountId[i];
-
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        newAccountDetails[i] = accountDetails[i];
                     }
-                    newAccountBalance[newAccountBalance.length - 1] = deposit;
-                    newAccountNames[newAccountNames.length - 1] = name;
-                    newAccoutIds[newAccoutIds.length -1] = id;
                     
-                    accountBalance = newAccountBalance;
-                    accountId = newAccoutIds;
-                    accountName = newAccountNames;
+                    newAccountDetails[newAccountDetails.length-1][0] = Integer.toString(id);
+                    newAccountDetails[newAccountDetails.length-1][1] = name;
+                    newAccountDetails[newAccountDetails.length-1][2] = Double.toString(deposit);
+
+                    newAccountDetails = accountDetails;
 
                     System.out.println();
                     System.out.printf(SUCCESS_MSG, String.format("%s:%s has been created successfully", id, name));
